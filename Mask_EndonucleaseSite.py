@@ -18,7 +18,7 @@ for i in records:
     result.write(seq_str+"\n")
 '''
 
-# finde GATC***** and replace this pattern as NNNNNNNNN
+# finde GTAC***** (the GTAC strings only appear once and five N followed it) and replace this pattern as NNNNNNNNN
 
 pattern = re.compile("(GTAC){1}[ATGC]{5}", flags=re.I)
 
