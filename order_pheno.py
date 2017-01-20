@@ -306,21 +306,25 @@ else:
             
         to.close()
 
-if os.path.exists("ibd_matrix.mibs") and not os.path.exists("test_MDS.pdf"):
-    R_MDS_Script = open("view_IBD_script.R", "w")
-    R_MDS_Script.write("""#!/usr/bin/Rscript\n
-       m <- as.matrix(read.table("ibd_matrix.mibs"))\n
-       mds <- cmdscale(as.dist(1-m))\n
-       k <- c(rep("green", 7), rep("blue", 168))\n
-       pdf("test_MDS.pdf")\n
-       plot(mds, pch=20, col=k)\n
-       dev.off()\n
+if os.path.exists("ibd_matrix.mibs") and not os.path.exists("PCA_MDS.pdf"):
+    if cluster != None:
+        R_MDS_Script = open("view_IBD_script.R", "w")
+        R_MDS_Script.write("""#!/usr/bin/Rscript\n
+          m <- as.matrix(read.table("ibd_matrix.mibs"))\n
+          cov_data <- read.table("{0}",  header=F)\n
+          colnames(cov_data) <- c("FID", "IID", "group")\n
+          pdf("PCA_MDS.pdf")\n
+          mds <- cmdscale(as.dist(1-m))\n
+          # k <- c(rep("green", 7), rep("blue", 168))\n
+          # plot(mds, pch=20, col=k)\n
+          plot(mds, pch=20, col=cov_data$group)\n
+          dev.off()\n
 
-       """)
-    R_MDS_Script.close()
+       """.format(cluster))
+        R_MDS_Script.close()
 
-    R_CMD = shlex.split("Rscript --slave --no-restore --no-save view_IBD_script.R")
-    subprocess.call(R_CMD)
+        R_CMD = shlex.split("Rscript --slave --no-restore --no-save view_IBD_script.R")
+        subprocess.call(R_CMD)
 
 assoFiles = [i for i in os.listdir(".") if (i.endswith(".qassoc") or i.endswith(".cmh")) and not i.startswith("plot_data")]
 
