@@ -7,6 +7,11 @@ GFF_file = open(sys.argv[1],'r')
 GFFC = GFF_file.readlines()
 GFF_file.close()
 
+## purpose: generate bed file for genes gtf
+## USAGE: python get_gene.py E_coli_K12.gtf > result.bed
+
+## use grep command to check the gene number
+## grep -n "\bexon\b" E_coli_K12.gtf | grep "protein_coding" | wc -l
 
 for i in GFFC:
     cols = i.rstrip().split("\t")
