@@ -19,6 +19,7 @@ np.percentile(boot_sensi, 97.5)
 ## ref https://cloud.tencent.com/developer/ask/213904
 ## ref https://www.jianshu.com/p/f7dc2da8dd13
 
+import statsmodels.api as sm
 from statsmodels import stats
 stats.proportion.proportion_confint(27, 32, alpha=0.05, method="beta")
 ## (0.6721212343179582, 0.9472494355978659)
