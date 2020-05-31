@@ -16,12 +16,14 @@ f = gzip.open(filename, mode='rb', compresslevel = 9, encoding = None, errors = 
 
 for r in get_reads(f):
     seq = str(r[2])
-
     for n,b in enumerate(seq):
+    ##  seq = r[2]
+    ##  for n,b in enumerate(seq.decode('utf-8')):
 	
         if b == 'N': 
             ## print(str(r[1]))
             print(str(r[4])[n])
+            ##  print(r[4].decode('utf-8')[n])
 
 f.close()
     
